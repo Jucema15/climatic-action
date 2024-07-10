@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CropTypeService } from './crop_type.service';
 import { CreateCropTypeDto } from './dto/create-crop_type.dto';
-import { UpdateCropTypeDto } from './dto/update-crop_type.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('CropType')
 @Controller('crop-type')
 export class CropTypeController {
   constructor(private readonly cropTypeService: CropTypeService) {}
@@ -23,7 +32,10 @@ export class CropTypeController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCropTypeDto: UpdateCropTypeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCropTypeDto: CreateCropTypeDto,
+  ) {
     return this.cropTypeService.update(+id, updateCropTypeDto);
   }
 

@@ -1,1 +1,3 @@
-export class CreateCropTypeDto {}
+export class CreateCropTypeDto {
+  public name: string;
+}

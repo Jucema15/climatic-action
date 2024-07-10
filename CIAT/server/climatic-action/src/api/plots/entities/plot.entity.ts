@@ -40,11 +40,11 @@ export class Plot {
     type: 'int',
     name: 'crop_id',
   })
-  crop_id: number;
+  crop_id?: number;
 
   @ManyToOne(() => CropType, (c) => c.id)
   @JoinColumn({
     name: 'crop_id',
   })
-  crop: CropType;
+  crop?: CropType;
 }

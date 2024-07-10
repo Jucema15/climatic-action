@@ -1,32 +1,50 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePlotDto } from './dto/create-plot.dto';
-import { UpdatePlotDto } from './dto/update-plot.dto';
 import { DataSource } from 'typeorm';
+import { Plot } from './entities/plot.entity';
 
 @Injectable()
 export class PlotsService {
-
-  constructor(
-    private readonly dataSource: DataSource
-  ){}
+  constructor(private readonly dataSource: DataSource) {}
 
   create(createPlotDto: CreatePlotDto) {
-    return 'This action adds a new plot';
+    return this.dataSource
+      .getRepository(Plot)
+      .save(createPlotDto)
+      .catch((err) => ({ data: null, error: err }));
   }
 
   findAll() {
-    return `This action returns all plots`;
+    return this.dataSource
+      .getRepository(Plot)
+      .find()
+      .catch((err) => ({ data: null, error: err }));
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} plot`;
+    return this.dataSource
+      .getRepository(Plot)
+      .findOne({
+        where: {
+          id: id,
+        },
+      })
+      .catch((err) => ({ data: null, error: err }));
   }
 
-  update(id: number, updatePlotDto: UpdatePlotDto) {
-    return `This action updates a #${id} plot`;
+  update(id: number, updatePlotDto: CreatePlotDto) {
+    return this.dataSource
+      .getRepository(Plot)
+      .update(id, {
+        crop_id: updatePlotDto.crop_id,
+        lat: updatePlotDto.lat,
+        long: updatePlotDto.long,
+        size: updatePlotDto.size,
+      })
+      .catch((err) => ({ data: null, error: err }));
   }
 
   remove(id: number) {
-    return `This action removes a #${id} plot`;
+    return this.dataSource.getRepository(Plot).delete(id);
   }
 }
